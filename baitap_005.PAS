@@ -1,7 +1,7 @@
 program baitap_005;
 const
 	MAX_N = 1000;
-	LINK = 'C:\PascalFiles\FIBISTR.';
+	LINK = 'FIBISTR.';
 	IP = 'INP';
 	OP = 'OUT';
 type
