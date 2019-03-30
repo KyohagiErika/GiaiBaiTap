@@ -1,10 +1,14 @@
 program baitap_006;
 const
 	MAX_N = 1000;
+	LINK = 'CIRCLE.';
+	IP = 'INP';
+	OP = 'OUT';
 type
 	vector = array[1..MAX_N] of Integer;
 	matrix = array[1..MAX_N,1..MAX_N] of Integer;
 var
+	f: text;
 	n,_reslt : integer;
 	c: matrix;
 	x: vector;
@@ -12,7 +16,10 @@ var
 	checked: array[1..MAX_N] of Boolean;
 procedure Input();
 begin
-	readln(n);
+	assign(f,LINK+IP);
+	reset(f);
+	readln(f,n);
+	close(f);
 end;
 procedure Setup();
 var
@@ -91,9 +98,12 @@ procedure Output();
 var
 	i: Integer;
 begin
-	writeln(_reslt);
+	assign(f,LINK+OP);
+	rewrite(f);
+	writeln(f,_reslt);
 	for i := 1 to _reslt do
-		writeln(reslt[i]);
+		writeln(f,reslt[i]);
+	close(f);
 end;
 begin
 	Input;
