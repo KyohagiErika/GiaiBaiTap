@@ -1,6 +1,6 @@
 program baitap_023;
 const
-	LINK = 'C:\PascalFiles\OPT.';
+	LINK = 'OPT.';
 	IP = 'INP';
 	OP = 'OUT';
 type
