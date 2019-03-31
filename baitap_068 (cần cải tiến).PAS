@@ -29,7 +29,7 @@ begin
 		readln(f,u,v,c[u,v]);
 	close(f);
 	randomize();
-	s := random(n);
+	s := 1+random(n);
 	min := 0;
 end;
 function minEdge(u : integer): Integer;
