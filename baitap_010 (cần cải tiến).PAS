@@ -1,6 +1,3 @@
-{
-  bài này do không có ý tưởng, phải viết bằng quay lui, cần cải tiến
-}
 program baitap_010;
 const
 	MAX_N = 10000;
@@ -8,15 +5,17 @@ const
 	IP = 'INP';
 	OP = 'OUT';
 type
+	matrix = array[1..MAX_N,1..MAX_N] of Integer;
 	vector = array[1..MAX_N] of Integer;
 	edge = record
-		x, y : Integer;
+		ad, u, v : Integer;
 	end;
 var
 	f: text;
-	n, _reslt, k: Integer;
+	n: Integer;
 	e: array[1..MAX_N] of edge;
-	x, reslt: vector;
+	trace: matrix;
+	P: vector;
 procedure Input();
 var
 	i: Integer;
@@ -25,52 +24,53 @@ begin
 	reset(f);
 	readln(f,n);
 	for i := 1 to n do
-		readln(f,e[i].x,e[i].y);
-	close(f);
-	_reslt := 0;
-end;
-procedure Update(x : vector ; k : Integer);
-var
-	i: Integer;
-	ok : Boolean;
-begin
-	ok := true;
-	for i := 2 to k do
-		if not (e[x[i-1]].y <= e[x[i]].x) then
-		begin
-			ok := false;
-			break;
-		end;
-	if ok and (k > _reslt) then
 	begin
-		_reslt := k;
-		reslt := x;
+		e[i].ad := i;
+		readln(f,e[i].u,e[i].v);
 	end;
+	close(f);
 end;
-procedure Process(k, i : Integer);
+procedure Sort(x, y : Integer);
 var
-	xi, j: Integer;
-	ok : Boolean;
+	lock, i, j: Integer;
+	tmp: edge;
 begin
-	if (i > k) then
-		Update(x,k)
-	else
-		for xi := 1 to n do
+	if (x >= y) then exit;
+	lock := e[(x+y) div 2].u;
+	i := x;
+	j := y;
+	repeat
+		while e[i].u < lock do i := i + 1;
+		while e[j].u > lock do j := j - 1;
+		if (i <= j) then
 		begin
-			ok := true;
-			for j := 1 to i-1 do
-				if (xi = x[j]) then
-				begin
-					ok := false;
-					break;
-				end;
-			if ok then
-			begin
-				x[i] := xi;
-				Process(k,i+1);
-				x[i] := 0;
-			end;
+			tmp := e[i];
+			e[i] := e[j];
+			e[j] := tmp;
+			i := i + 1;
+			j := j - 1;
 		end;
+	until i > j;
+	Sort(x,j);
+	Sort(i,y);
+end;	
+procedure Process();
+var
+	i, j, jmax : Integer;
+begin
+	for i := 1 to n do
+	begin
+		jmax := i;
+		P[i] := 1;
+		for j := 1 to i-1 do
+			if (e[j].v <= e[i].u) and (P[i] < (P[j] + 1)) then
+			begin
+				jmax := j;
+				P[i] := P[j] + 1;
+			end;
+		trace[i] := trace[jmax];
+		trace[i][P[i]] := e[i].ad;
+	end;
 end;
 procedure Output();
 var
@@ -78,13 +78,13 @@ var
 begin
 	assign(f,LINK+OP);
 	rewrite(f);
-	writeln(f,_reslt);
-	for i := 1 to _reslt do
-		writeln(f,reslt[i]);
+	writeln(f,P[n]);
+	for i := 1 to P[n] do writeln(f,trace[n][i],' ');
 	close(f);
 end;
 begin
 	Input;
-	for k := 1 to n do Process(k,1);
+	Sort(1,n);
+	Process;
 	Output;
 end.
