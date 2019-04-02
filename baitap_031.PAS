@@ -1,7 +1,7 @@
 program baitap_031;
 const
 	MAX_N = 10000;
-	LINK = 'C:\PascalFiles\CANDY.';
+	LINK = 'CANDY.';
 	IP = 'INP';
 	OP = 'OUT';
 type
