@@ -45,23 +45,23 @@ begin
 		 	r := -1;
 		 	if ((i-1) > 0) then
 		 	begin
-		 		c[count,count+r+5] := -tbl[i-1,j+1];
-		 		if c[count,count+r+5] = 0 then
-		 			lock[count,count+r+5] := 1;
+		 		c[count,count+r+n] := -tbl[i-1,j+1];
+		 		if c[count,count+r+n] = 0 then
+		 			lock[count,count+r+n] := 1;
 		 	end;
 		 	r := r + 1;
-		 	c[count,count+r+5] := -tbl[i,j+1];
-		 	if c[count,count+r+5] = 0 then
-		 			lock[count,count+r+5] := 1;
+		 	c[count,count+r+n] := -tbl[i,j+1];
+		 	if c[count,count+r+n] = 0 then
+		 			lock[count,count+r+n] := 1;
 		 	r := r + 1;
 		 	if ((i+1) <= n) then
 		 	begin
-				c[count,count+r+5] := -tbl[i+1,j+1];
-				if c[count,count+r+5] = 0 then
-		 			lock[count,count+r+5] := 1;
+				c[count,count+r+n] := -tbl[i+1,j+1];
+				if c[count,count+r+n] = 0 then
+		 			lock[count,count+r+n] := 1;
 		 	end;
 		end;
-	for i := k-5 to k do
+	for i := k-n to k do
 		lock[i,t] := 1;
 end;
 procedure minPath();
@@ -120,10 +120,10 @@ begin
 		i := i + 1;
 		j := j - 1;
 	until i >= j;
-	r := -5;
+	r := -n;
 	for i := 1 to _reslt do
 	begin
-		r := r + 5;
+		r := r + n;
 		reslt[i] := reslt[i] - r;
 	end;
 end;
